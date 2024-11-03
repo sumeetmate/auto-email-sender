@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lambda-email-generator", "lambda-email-generator", "{F3BBEDBA-5294-4805-A07B-184C71CA3CA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{56AE4E7E-DE5D-4A12-AEA7-1469A34B0F51}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lambda-email-generator.Tests", "lambda-email-generator\test\lambda-email-generator.Tests\lambda-email-generator.Tests.csproj", "{D938CBF2-C95D-4BC7-B53C-AE360254B9A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8746A1C9-85E2-4921-9339-A89EAF6B13E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lambda-email-generator", "lambda-email-generator\src\lambda-email-generator\lambda-email-generator.csproj", "{EC3E43A6-FACB-4763-B2AE-7D7A4A8EAC86}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D938CBF2-C95D-4BC7-B53C-AE360254B9A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D938CBF2-C95D-4BC7-B53C-AE360254B9A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D938CBF2-C95D-4BC7-B53C-AE360254B9A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D938CBF2-C95D-4BC7-B53C-AE360254B9A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC3E43A6-FACB-4763-B2AE-7D7A4A8EAC86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC3E43A6-FACB-4763-B2AE-7D7A4A8EAC86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC3E43A6-FACB-4763-B2AE-7D7A4A8EAC86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC3E43A6-FACB-4763-B2AE-7D7A4A8EAC86}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{56AE4E7E-DE5D-4A12-AEA7-1469A34B0F51} = {F3BBEDBA-5294-4805-A07B-184C71CA3CA5}
+		{D938CBF2-C95D-4BC7-B53C-AE360254B9A8} = {56AE4E7E-DE5D-4A12-AEA7-1469A34B0F51}
+		{8746A1C9-85E2-4921-9339-A89EAF6B13E6} = {F3BBEDBA-5294-4805-A07B-184C71CA3CA5}
+		{EC3E43A6-FACB-4763-B2AE-7D7A4A8EAC86} = {8746A1C9-85E2-4921-9339-A89EAF6B13E6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A165AB64-B830-4BED-9273-376977ACE843}
+	EndGlobalSection
+EndGlobal
