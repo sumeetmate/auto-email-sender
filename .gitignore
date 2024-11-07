@@ -22,7 +22,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# lmabda .NET Specific directories
+# lambda .NET Specific directories
 bin
 obj
+.vscode
+.vsdbg
 .aws-sam
+.lambda-test-tool.vsdbg

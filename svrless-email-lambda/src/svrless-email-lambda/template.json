@@ -6,7 +6,7 @@
     "BucketName": {
       "Type": "String",
       "Description": "Name of S3 bucket to be created. The Lambda function will be invoked when new objects are upload to the bucket. If left blank a name will be generated.",
-      "MinLength": "0"
+      "MinLength": "5"
     }
   },
   "Conditions": {
@@ -20,7 +20,7 @@
     }
   },
   "Resources": {
-    "Bucket": {
+    "EmailTemplateBucket": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
         "BucketName": {
@@ -42,7 +42,7 @@
         "Handler": "svrless-email-lambda::svrless_email_lambda.Function::FunctionHandler",
         "Runtime": "dotnet8",
         "CodeUri": "",
-        "Description": "Default function",
+        "Description": "This function get triggered with file upload on S3",
         "MemorySize": 512,
         "Timeout": 30,
         "Role": null,
@@ -51,14 +51,14 @@
           "AmazonS3ReadOnlyAccess"
         ],
         "Events": {
-          "NewImagesBucket": {
+          "NewEmailTemplateEvent": {
             "Type": "S3",
             "Properties": {
               "Bucket": {
-                "Ref": "Bucket"
+                "Ref": "EmailTemplateBucket"
               },
               "Events": [
-                "s3:ObjectCreated:*"
+                "s3:ObjectCreated:Put"
               ]
             }
           }
@@ -69,9 +69,9 @@
   "Outputs": {
     "Bucket": {
       "Value": {
-        "Ref": "Bucket"
+        "Ref": "EmailTemplateBucket"
       },
-      "Description": "Bucket that will invoke the lambda function when new objects are created."
+      "Description": "This Bucket will invoke the lambda function when new objects are created."
     }
   }
 }
