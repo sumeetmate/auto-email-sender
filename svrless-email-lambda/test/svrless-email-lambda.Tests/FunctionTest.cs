@@ -1,61 +1,73 @@
 using Xunit;
-using Amazon.Lambda;
 using Amazon.Lambda.Core;
-using Amazon.Lambda.TestUtilities;
 using Amazon.Lambda.S3Events;
-
-using Amazon;
-using Amazon.S3;
-using Amazon.S3.Model;
-using Amazon.S3.Util;
-using System.Collections.Generic;
+using Moq;
 
 namespace svrless_email_lambda.Tests;
 
 public class FunctionTest
 {
-    [Fact]
-    public async Task TestS3EventLambdaFunction()
+    private readonly Mock<IS3Service> _mockS3Service;
+    private readonly Mock<IEmailService> _mockEmailService;
+    private readonly Mock<ILambdaContext> _mockLambdaContext;
+    private readonly Mock<ILambdaLogger> _mockLambdaLogger;
+    private readonly Function _function;
+
+    public FunctionTest()
     {
-        IAmazonS3 s3Client = new AmazonS3Client(RegionEndpoint.USEast2);
+        _mockS3Service = new Mock<IS3Service>();
+        _mockEmailService = new Mock<IEmailService>();
+        _mockLambdaContext = new Mock<ILambdaContext>();
+        _mockLambdaLogger = new Mock<ILambdaLogger>();
 
-        var bucketName = "lambda-svrless-email-lambda-".ToLower() + DateTime.Now.Ticks;
-        var key = "text.txt";
-        var content = "sample data";
+        _mockLambdaContext.SetupGet(c => c.Logger).Returns(_mockLambdaLogger.Object);
+        _function = new Function(_mockS3Service.Object, _mockEmailService.Object);
+    }
 
-        await s3Client.PutBucketAsync(bucketName);
-        try
+    [Fact]
+    public async Task Lambda_SendEmailWhenFileIsuploaded()
+    {
+        //Arrange
+        var s3Event = new S3Event
         {
-            await s3Client.PutObjectAsync(new PutObjectRequest
+            Records = new List<S3Event.S3EventNotificationRecord>
             {
-                BucketName = bucketName,
-                Key = key,
-                ContentBody = content
-            });
-            
-            var s3Event = new S3Event
-            {
-                Records = new List<S3Event.S3EventNotificationRecord>
+                new S3Event.S3EventNotificationRecord
                 {
-                    new S3Event.S3EventNotificationRecord
+                    S3 = new S3Event.S3Entity
                     {
-                        S3 = new S3Event.S3Entity
-                        {
-                            Bucket = new S3Event.S3BucketEntity {Name = bucketName },
-                            Object = new S3Event.S3ObjectEntity {Key = key }
-                        }
-                    }
+                        Bucket = new S3Event.S3BucketEntity { Name = "my-bucket" },
+                        Object = new S3Event.S3ObjectEntity { Key = "download.html" }
+                    }   
+                },
+                new S3Event.S3EventNotificationRecord
+                {
+                    S3 = new S3Event.S3Entity
+                    {
+                        Bucket = new S3Event.S3BucketEntity { Name = "my-bucket" },
+                        Object = new S3Event.S3ObjectEntity { Key = "myfile.csv" }
+                    } 
                 }
-            };
+            }
+        };
 
-            var function = new Function(s3Client);
-            var result = await function.FunctionHandler(s3Event,new TestLambdaContext());
+        _mockS3Service
+            .Setup(s => s.GetFileContentAsync("my-bucket", "download.html"))
+            .ReturnsAsync("<p>Hello {{NAME}}</p>");
 
-            Assert.Equal(content, result);
-        }
-        finally
-        {
-            await AmazonS3Util.DeleteS3BucketWithObjectsAsync(s3Client, bucketName);
-        }
+        _mockS3Service
+            .Setup(s => s.GetFileContentAsync("my-bucket", "myfile.csv"))
+            .ReturnsAsync("John Doe,john@example.com\nJane Smith,jane@example.com");
+
+        _mockEmailService
+            .Setup(e => e.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync(true);
+
+        //Act
+        await _function.FunctionHandler(s3Event, _mockLambdaContext.Object);
+
+        //Assert
+        _mockEmailService.Verify(e => e.SendEmailAsync("john@example.com", "Email from Lambda", "<p>Hello John Doe</p>"), Times.Once);
+        _mockEmailService.Verify(e => e.SendEmailAsync("jane@example.com", "Email from Lambda", "<p>Hello Jane Smith</p>"), Times.Once);
     }
 }
