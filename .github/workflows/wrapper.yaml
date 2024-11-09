@@ -17,3 +17,5 @@ jobs:
         run: |
           cd svrless-email-lambda/src/svrless-email-lambda
           gh workflow run pipeline.yaml --repo ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ github.token }}
