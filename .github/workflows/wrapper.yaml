@@ -2,20 +2,14 @@ name: Wrapper workflow for svrless lambda
 
 on:
   push:
-    paths:
-      - "svrless-email-lambda/src/svrless-email-lambda"
+    branches:
+      - "main"
+      - "feature**"
+  delete:
+    branches:
+      - "feature**"
   workflow_dispatch:
 
 jobs:
   call-subdirectory-workflows:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Trigger subdirectory workflow
-        run: |
-          cd svrless-email-lambda/src/svrless-email-lambda
-          gh workflow run pipeline.yaml --repo ${{ github.repository }}
-        env:
-          GH_TOKEN: ${{ github.token }}
+    uses: ./svrless-email-lambda/src/svrless-email-lambda/.github/workflows/pipeline.yaml
