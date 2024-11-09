@@ -12,4 +12,4 @@ on:
 
 jobs:
   call-subdirectory-workflows:
-    uses: ./../../svrless-email-lambda/src/svrless-email-lambda/.github/workflows/pipeline.yaml@main
+    uses: svrless-email-lambda/src/svrless-email-lambda/.github/workflows/pipeline.yaml@main
