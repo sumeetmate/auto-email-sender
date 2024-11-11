@@ -175,7 +175,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: packaged-testing.yaml
-          working-directory: ./svrless-email-lambda/src/svrless-email-lambda
+          path: ./svrless-email-lambda/src/svrless-email-lambda/packaged-testing.yaml
 
       - name: Assume the testing pipeline user role
         uses: aws-actions/configure-aws-credentials@v4
