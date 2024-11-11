@@ -11,7 +11,7 @@ on:
       - 'feature**'
 
 env:
-  SAM_TEMPLATE: template.yaml
+  SAM_TEMPLATE: template.json
   TESTING_STACK_NAME: lambda-email-sender-dev
   TESTING_PIPELINE_EXECUTION_ROLE: arn:aws:iam::340752803821:role/aws-sam-cli-managed-dev-pipel-PipelineExecutionRole-bXxFcVNPc4nD
   TESTING_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::340752803821:role/aws-sam-cli-managed-dev-p-CloudFormationExecutionRo-EzySKm0nOi2x
