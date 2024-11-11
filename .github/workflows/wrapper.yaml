@@ -156,6 +156,7 @@ jobs:
             --s3-bucket ${PROD_ARTIFACTS_BUCKET} \
             --region ${PROD_REGION} \
             --output-template-file packaged-prod.yaml
+        working-directory: ./svrless-email-lambda/src/svrless-email-lambda    
 
       - uses: actions/upload-artifact@v4
         with:
