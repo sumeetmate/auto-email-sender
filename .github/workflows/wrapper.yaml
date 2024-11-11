@@ -133,8 +133,7 @@ jobs:
           sam package \
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
             --region ${TESTING_REGION} \
-            --output-template-file packaged-testing.yaml
-        working-directory: ./svrless-email-lambda/src/svrless-email-lambda    
+            --output-template-file packaged-testing.yaml 
 
       - uses: actions/upload-artifact@v4
         with:
@@ -156,7 +155,6 @@ jobs:
             --s3-bucket ${PROD_ARTIFACTS_BUCKET} \
             --region ${PROD_REGION} \
             --output-template-file packaged-prod.yaml
-        working-directory: ./svrless-email-lambda/src/svrless-email-lambda    
 
       - uses: actions/upload-artifact@v4
         with:
@@ -175,7 +173,6 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: packaged-testing.yaml
-          path: ./svrless-email-lambda/src/svrless-email-lambda
 
       - name: Assume the testing pipeline user role
         uses: aws-actions/configure-aws-credentials@v4
