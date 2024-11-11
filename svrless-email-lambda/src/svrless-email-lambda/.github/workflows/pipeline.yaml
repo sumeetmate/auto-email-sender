@@ -1,7 +1,14 @@
 name: Pipeline
 
 on:
-  workflow_call:
+  #workflow_call:
+  push:
+    branches:
+      - 'main'
+      - 'feature**'
+  delete:
+    branches:
+      - 'feature**'
 
 env:
   SAM_TEMPLATE: template.yaml
