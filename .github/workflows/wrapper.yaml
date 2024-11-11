@@ -133,7 +133,8 @@ jobs:
           sam package \
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
             --region ${TESTING_REGION} \
-            --output-template-file packaged-testing.yaml 
+            --output-template-file packaged-testing.yaml
+        working-directory: ./svrless-email-lambda/src/svrless-email-lambda
 
       - uses: actions/upload-artifact@v4
         with:
