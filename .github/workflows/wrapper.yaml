@@ -84,6 +84,7 @@ jobs:
         with:
           use-installer: true
       - run: sam build --template ${SAM_TEMPLATE} --use-container
+        working-directory: ./svrless-email-lambda/src/svrless-email-lambda
 
       - name: Assume the testing pipeline user role
         uses: aws-actions/configure-aws-credentials@v4
@@ -116,6 +117,7 @@ jobs:
 
       - name: Build resources
         run: sam build --template ${SAM_TEMPLATE} --use-container
+        working-directory: ./svrless-email-lambda/src/svrless-email-lambda
 
       - name: Assume the testing pipeline user role
         uses: aws-actions/configure-aws-credentials@v4
