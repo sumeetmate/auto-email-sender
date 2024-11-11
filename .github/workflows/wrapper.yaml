@@ -21,6 +21,7 @@ env:
   # testing "sam package" and "sam deploy" commands.
   # TESTING_IMAGE_REPOSITORY = '0123456789.dkr.ecr.region.amazonaws.com/repository-name'
   TESTING_REGION: us-east-2
+  TESTING_BUCKET_NAME: input-email-template
   PROD_STACK_NAME: lambda-email-sender-prod
   PROD_PIPELINE_EXECUTION_ROLE: arn:aws:iam::340752803821:role/aws-sam-cli-managed-prod-pipe-PipelineExecutionRole-6YmCZYILBEry
   PROD_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::340752803821:role/aws-sam-cli-managed-prod--CloudFormationExecutionRo-b0ugt0lkBnuP
@@ -194,6 +195,7 @@ jobs:
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
             --no-fail-on-empty-changeset \
             --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE}
+            --parameter-overrides BucketName=${TESTING_BUCKET_NAME}
 
   integration-test:
     if: github.ref == 'refs/heads/main'
