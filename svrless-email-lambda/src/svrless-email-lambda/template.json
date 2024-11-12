@@ -20,40 +20,6 @@
     }
   },
   "Resources": {
-    "EmailLambdaRole": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": {
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "lambda.amazonaws.com"
-            },
-            "Action": "sts:AssumeRole"
-          }
-        }
-      },
-      "Policies": [
-        {
-          "PolicyName": "CloudWatchLogsPolicy",
-          "PolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [
-              {
-                "Effect": "Allow",
-                "Action": [
-                  "logs:CreateLogGroup",
-                  "logs:CreateLogStream",
-                  "logs:PutLogsEvents"
-                ]
-              }
-            ],
-            "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*"
-          }
-        }
-      ]
-    },
     "EmailTemplateBucket": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
@@ -79,12 +45,11 @@
         "Description": "This function get triggered with file upload on S3",
         "MemorySize": 512,
         "Timeout": 30,
-        "Role": {
-          "Fn:GetAtt": ["EmailLambdaRole", "Arn"]
-        },
+        "Role": null,
         "Policies": [
           "AWSLambda_FullAccess",
-          "AmazonS3ReadOnlyAccess"
+          "AmazonS3ReadOnlyAccess",
+          "AWSLambdaBasicExecutionRole"
         ],
         "Events": {
           "NewEmailTemplateEvent": {
